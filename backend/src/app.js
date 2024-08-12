@@ -16,6 +16,7 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization' , 'Cookie'] 
 };
 app.use(cors(corsOptions));
+
 app.get("/" , (req,res)=>{
     res.status(200).json("Helloooo")
 })

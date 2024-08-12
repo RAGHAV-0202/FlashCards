@@ -13,8 +13,7 @@ app.use(cookieParser())
 const corsOptions = {
     origin: '*', 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
-    allowedHeaders: ['Content-Type', 'Authorization' , 'Cookie'] ,
-    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization' , 'Cookie'] 
 };
 app.use(cors(corsOptions));
 app.get("/" , (req,res)=>{

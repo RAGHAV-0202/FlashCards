@@ -7,7 +7,8 @@ import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async(req,res,next)=>{
     // try {
-        const {accessToken} =  req.cookies?._vercel_jwt || req.header("Authorization")?.replace("Bearer " , "") || req._vercel_jwt
+       const {accessToken} =  req.cookies?.accessToken || req.cookies?._vercel_jwt || req.header("Authorization")?.replace("Bearer " , "") || req._vercel_jwt
+        console.log(accessToken)
 
         if(!accessToken){
             throw new apiError(401 , "Unauthorized access")

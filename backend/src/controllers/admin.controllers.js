@@ -93,32 +93,36 @@ const logout = asyncHandler(async(req,res)=>{
 })
 
 const addCard = asyncHandler(async(req,res)=>{
-    const {question , answer} = req.body ;
-    if(!question.trim() || !answer.trim()){
-        throw new apiError(400 , "Enter both question and answer.")
-    }
-
-    const exists = await flashcards.findOne({question});
-
-    if(exists){
-        throw new apiError(400 , "question already exists")
-    }
-
-    const card_object = await flashcards.create({
-        question : question ,
-        answer : answer,
-        creator : req.user._id
-    })
-
-    const double_check_if_card_is_created = await flashcards.findById(card_object._id);
+    try {
+        const {question , answer} = req.body ;
+        if(!question.trim() || !answer.trim()){
+            throw new apiError(400 , "Enter both question and answer.")
+        }
     
-    if(!double_check_if_card_is_created){
-        throw new apiError(500 , "error while adding a new card")
+        const exists = await flashcards.findOne({question});
+    
+        if(exists){
+            throw new apiError(400 , "question already exists")
+        }
+    
+        const card_object = await flashcards.create({
+            question : question ,
+            answer : answer,
+            creator : req.user._id
+        })
+    
+        const double_check_if_card_is_created = await flashcards.findById(card_object._id);
+        
+        if(!double_check_if_card_is_created){
+            throw new apiError(500 , "error while adding a new card")
+        }
+        res.status(200).json(
+            new ApiResponse(200 , double_check_if_card_is_created , "Successfully added a card")
+            // card_object
+        )
+    } catch (error) {
+        console.log(`card creation error :  ${error}`)
     }
-    res.status(200).json(
-        new ApiResponse(200 , double_check_if_card_is_created , "Successfully added a card")
-        // card_object
-    )
 })
 
 const editCard = asyncHandler(async(req,res)=>{

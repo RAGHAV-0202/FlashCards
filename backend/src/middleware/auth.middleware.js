@@ -12,27 +12,29 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
         const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
         const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
 
-        // Choose the first available token
         const accessToken = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
 
         console.log("Extracted Token:", accessToken);
         console.log("Type of Token:", typeof accessToken);
 
+        if(typeof accessToken === "object"){
+           accessToken = accessToken.accessToken
+           console.log(accessToken)
+        }
+
         if (!accessToken || typeof accessToken !== 'string') {
             return res.status(401).json({ message: "Unauthorized access" });
         }
 
-        // Verify the token
+
         const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
-        // Find the user by the ID in the token
         const user = await Admin.findById(decodedToken?._id).select("-password");
 
         if (!user) {
             return res.status(401).json({ message: "Invalid Access Token" });
         }
 
-        // Attach the user to the request object
         req.user = user;
         next();
     } catch (error) {

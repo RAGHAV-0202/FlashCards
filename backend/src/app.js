@@ -17,7 +17,7 @@ app.use(cookieParser())
 // };
 
 const corsOptions = {
-    origin: ['https://flash-cards-mbum.vercel.app', 'http://localhost:3000' , "http://172.20.10.2:3000/" , "http://192.168.29.76:3000"],
+    origin: ['https://flash-cards-mbum.vercel.app', 'http://localhost:3000' , "http://172.20.10.2:3000" , "http://192.168.29.76:3000"],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
     credentials: true 

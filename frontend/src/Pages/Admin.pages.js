@@ -17,7 +17,7 @@ function LoginPage({setStep}){
 
        try {
         alert("please wait, process may take 4-5 seconds")
-         const response = await axios.post("/api/admin/login", { email, password }, { withCredentials: true })
+         const response = await axios.post("https://flashcards-gqs1.onrender.com/api/admin/login", { email, password }, { withCredentials: true })
 
             if(response.status === 200){
                 setStep((prev)=>prev+1)
@@ -92,7 +92,7 @@ function AddCard(){
         }else{
             try {
                 alert("please wait, process may take 4-5 seconds")
-                const response = await axios.post("/api/admin/add-card" , { question, answer }, { withCredentials: true })
+                const response = await axios.post("https://flashcards-gqs1.onrender.com/api/admin/add-card" , { question, answer }, { withCredentials: true })
     
                 console.log(response.data)
     
@@ -150,7 +150,7 @@ function EditCard(){
         }else{
             try {
                 alert("please wait, process may take 4-5 seconds")
-                const response = await axios.post("/api/admin/edit-card" , {findMethod, newQue, newAns }, { withCredentials: true })
+                const response = await axios.post("https://flashcards-gqs1.onrender.com/api/admin/edit-card" , {findMethod, newQue, newAns }, { withCredentials: true })
     
                 console.log(response.data)
     
@@ -209,7 +209,7 @@ function DeleteCard(){
         }else{
             try {
                 alert("please wait, process may take 4-5 seconds")
-                const response = await axios.post("/api/admin/delete-card" , { id}, { withCredentials: true })
+                const response = await axios.post("https://flashcards-gqs1.onrender.com/api/admin/delete-card" , { id}, { withCredentials: true })
     
                 console.log(response.data)
     

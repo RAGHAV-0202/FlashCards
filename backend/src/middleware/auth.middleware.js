@@ -7,7 +7,11 @@ import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async(req,res,next)=>{
     // try {
-       const {accessToken} =  req.cookies?.accessToken || req.cookies?._vercel_jwt || req.header("Authorization")?.replace("Bearer " , "") || req._vercel_jwt
+        const tokenFromCookies = req.cookies?.accessToken;
+        const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
+        const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
+
+        const accessToken = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
         console.log(accessToken)
 
         if(!accessToken){

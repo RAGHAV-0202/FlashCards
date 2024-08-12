@@ -10,11 +10,19 @@ const app = express()
 
 app.use(express.json())
 app.use(cookieParser())
+// const corsOptions = {
+//     origin: '*', 
+//     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+//     allowedHeaders: ['Content-Type', 'Authorization' , 'Cookie'] 
+// };
+
 const corsOptions = {
-    origin: '*', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
-    allowedHeaders: ['Content-Type', 'Authorization' , 'Cookie'] 
+    origin: 'https://flash-cards-mbum.vercel.app/', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    credentials: true 
 };
+
 app.use(cors(corsOptions));
 
 app.get("/" , (req,res)=>{

@@ -5,35 +5,38 @@ import dotenv from "dotenv"
 dotenv.config()
 import jwt from "jsonwebtoken"
 
-export const verifyJWT = asyncHandler(async(req,res,next)=>{
-    // try {
-        const {tokenFromCookies} = req.cookies?.accessToken;
-        const {tokenFromHeader} = req.header("Authorization")?.replace("Bearer ", "");
-        const {tokenFromVercelJwt} = req._vercel_jwt?.accessToken;
+export const verifyJWT = asyncHandler(async (req, res, next) => {
+    try {
+        // Directly assign values instead of destructuring
+        const tokenFromCookies = req.cookies?.accessToken;
+        const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
+        const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
 
-        const {accessToken} = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
-        console.log(accessToken)
+        // Choose the first available token
+        const accessToken = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
 
-        // if(!accessToken){
-        //     throw new apiError(401 , "Unauthorized access")
-        // }
-        if (!accessToken) {
+        console.log("Extracted Token:", accessToken);
+        console.log("Type of Token:", typeof accessToken);
+
+        if (!accessToken || typeof accessToken !== 'string') {
             return res.status(401).json({ message: "Unauthorized access" });
         }
 
-        const decodedToken = jwt.verify(accessToken , process.env.ACCESS_TOKEN_SECRET)
-        
-        const user = await Admin.findById(decodedToken?._id).select("-password")
-    
-        if(!user){
-            throw new apiError(401 , "Invalid Access Token")
-        }
-    
-    
-        req.user = user ;
-        next()
-    // } catch (error) {
-    //     throw new apiError(401 , "invaid access token")
-    // }
+        // Verify the token
+        const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
 
-})
+        // Find the user by the ID in the token
+        const user = await Admin.findById(decodedToken?._id).select("-password");
+
+        if (!user) {
+            return res.status(401).json({ message: "Invalid Access Token" });
+        }
+
+        // Attach the user to the request object
+        req.user = user;
+        next();
+    } catch (error) {
+        console.error("Error verifying JWT:", error);
+        return res.status(401).json({ message: "Invalid access token" });
+    }
+});

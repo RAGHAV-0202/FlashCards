@@ -7,15 +7,18 @@ import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async(req,res,next)=>{
     // try {
-        const tokenFromCookies = req.cookies?.accessToken;
-        const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
-        const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
+        const {tokenFromCookies} = req.cookies?.accessToken;
+        const {tokenFromHeader} = req.header("Authorization")?.replace("Bearer ", "");
+        const {tokenFromVercelJwt} = req._vercel_jwt?.accessToken;
 
-        const accessToken = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
+        const {accessToken} = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
         console.log(accessToken)
 
-        if(!accessToken){
-            throw new apiError(401 , "Unauthorized access")
+        // if(!accessToken){
+        //     throw new apiError(401 , "Unauthorized access")
+        // }
+        if (!accessToken) {
+            return res.status(401).json({ message: "Unauthorized access" });
         }
 
         const decodedToken = jwt.verify(accessToken , process.env.ACCESS_TOKEN_SECRET)

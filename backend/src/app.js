@@ -17,7 +17,7 @@ app.use(cookieParser())
 // };
 
 const corsOptions = {
-    origin: 'https://flash-cards-mbum.vercel.app/', 
+    origin: 'https://flash-cards-mbum.vercel.app', 
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
     credentials: true 

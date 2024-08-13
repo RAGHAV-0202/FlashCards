@@ -6,17 +6,17 @@ import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
-        console.log("Cookies:", req.cookies);
-        console.log("Authorization Header:", req.header("Authorization"));
-        console.log("Vercel JWT:", req._vercel_jwt);
 
-        // Directly assign values instead of destructuring
+
         const tokenFromCookies = req.cookies?.accessToken;
         const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
         const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
         let {accessToken} = req.cookies  ;
 
-        console.log("accessToke {} :" + accessToken)
+
+        console.log(req.headers.cookie);
+
+
 
         let AT = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
 

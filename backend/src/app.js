@@ -27,7 +27,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get("/" , (req,res)=>{
-    res.status(200).json("Helloooo")
+    res.status(200).json("Server is Live")
 })
 
 app.use("/api/" , userRoutes)

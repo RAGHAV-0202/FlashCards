@@ -81,8 +81,12 @@ function CardPage(){
         .then(response => response.json())
         // .then(data=>console.log(data))
         .then(data => setContent(data.data)) 
-
         .catch(error => console.error("Error fetching data:", error)); 
+
+        fetch("https://flashcards-gqs1.onrender.com").then(res=>res.json()).then(data=>console.log(data)).catch("error while loading server status")
+            
+
+
     }, []); 
     
 

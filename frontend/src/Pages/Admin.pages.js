@@ -6,6 +6,9 @@ import { createContext, useContext } from 'react';
 const StepContext = createContext();
 const useStep = () => useContext(StepContext);
 
+
+
+
 function LoginPage({setStep}){
     const [message_for_frontend , setMsg] = React.useState("")
 
@@ -328,6 +331,7 @@ function AdminPanelMain() {
 }
 
 function AdminPanel(){
+
     return(
         <div className="admin_panel">
             <Header/>
@@ -339,7 +343,9 @@ function AdminPanel(){
 
 function AdminPage(){
 
-    
+    React.useEffect(()=>{
+         fetch("https://flashcards-gqs1.onrender.com").then(res=>res.json()).then(data=>console.log(data)).catch("error while loading server status")
+    } , [])
 
     const [step , setStep] = React.useState(0)
 

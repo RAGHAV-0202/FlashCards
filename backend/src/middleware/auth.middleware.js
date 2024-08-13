@@ -11,10 +11,10 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
         const tokenFromCookies = req.cookies?.accessToken;
         const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
         const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
-        let {accessToken} = req.cookies  ;
+        let {accessToken} = req.cookies.accessToken  ;
 
 
-        console.log(req.headers.cookie);
+        console.log(req);
 
 
 

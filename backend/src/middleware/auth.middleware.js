@@ -12,7 +12,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
         const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
         const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
 
-        const accessToken = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
+        let accessToken = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
 
         console.log("Extracted Token:", accessToken);
         console.log("Type of Token:", typeof accessToken);

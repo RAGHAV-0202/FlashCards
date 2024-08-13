@@ -1,5 +1,4 @@
 import { Admin } from "../models/admin.models.js";
-import { apiError } from "../utils/apiErrors.js";
 import asyncHandler from "../utils/asynchandles.js";
 import dotenv from "dotenv"
 dotenv.config()
@@ -7,6 +6,9 @@ import jwt from "jsonwebtoken"
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
+        console.log("Cookies:", req.cookies);
+        console.log("Authorization Header:", req.header("Authorization"));
+        console.log("Vercel JWT:", req._vercel_jwt);
         // Directly assign values instead of destructuring
         const tokenFromCookies = req.cookies?.accessToken;
         const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");

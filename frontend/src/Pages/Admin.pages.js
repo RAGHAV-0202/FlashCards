@@ -20,7 +20,7 @@ function LoginPage({setStep}){
 
        try {
         alert("please wait, process may take 4-5 seconds")
-         const response = await axios.post("/api/admin/login", { email, password }, { withCredentials: true })
+         const response = await axios.post("https://flashcards-gqs1.onrender.com/api/admin/login", { email, password }, { withCredentials: true })
 
             if(response.status === 200){
                 setStep((prev)=>prev+1)

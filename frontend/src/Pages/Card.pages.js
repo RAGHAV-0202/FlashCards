@@ -1,5 +1,6 @@
 import React from "react"
 import "../CSS/CardPage.css"
+import "../CSS/alert.css"
 import backBg from "../inverted_bg_back.png"
 
 
@@ -71,10 +72,21 @@ function Card({content}){
     )
 }
 
+function Modal(props){
+
+  return(
+    <div className='modal'>
+      <p>Render (api server) may take upto 60s to start</p>
+      <span className='border_btm'></span>
+    </div>
+  )
+}
 
 function CardPage(){
 
     const [content, setContent] = React.useState([{question : "what is the powerhouse of the cell" , answer : "mitochondria"}]); 
+
+    const [show , setShow] = React.useState(false);
 
     React.useEffect(() => {
         fetch("https://flashcards-gqs1.onrender.com/api/cards")
@@ -85,14 +97,24 @@ function CardPage(){
 
         fetch("https://flashcards-gqs1.onrender.com").then(res=>res.json()).then(data=>console.log(data)).catch("error while loading server status")
             
-
+        setShow(true)
 
     }, []); 
     
+    
+
+
+
+    if(show){
+        setTimeout(()=>{
+        setShow((prev)=>!prev)
+        } , 3000)
+    }
 
     return(
        <div className="CardPage">
         <Card content = {content} />
+        {show && <Modal/>}
        </div>
     )
 }

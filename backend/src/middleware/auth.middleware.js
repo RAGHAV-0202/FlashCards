@@ -9,27 +9,31 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
         console.log("Cookies:", req.cookies);
         console.log("Authorization Header:", req.header("Authorization"));
         console.log("Vercel JWT:", req._vercel_jwt);
+
         // Directly assign values instead of destructuring
         const tokenFromCookies = req.cookies?.accessToken;
         const tokenFromHeader = req.header("Authorization")?.replace("Bearer ", "");
         const tokenFromVercelJwt = req._vercel_jwt?.accessToken;
+        let {accessToken} = req.cookies  ;
 
-        let accessToken = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
+        console.log("accessToke {} :" + accessToken)
 
-        console.log("Extracted Token:", accessToken);
-        console.log("Type of Token:", typeof accessToken);
+        let AT = tokenFromCookies || tokenFromHeader || tokenFromVercelJwt;
 
-        if(typeof accessToken === "object"){
-           accessToken = accessToken.accessToken
-           console.log(accessToken)
+        console.log("Extracted Token:", AT);
+        console.log("Type of Token:", typeof AT);
+
+        if(typeof AT === "object"){
+           AT = AT.accessToken
+           console.log(AT)
         }
 
-        if (!accessToken || typeof accessToken !== 'string') {
+        if (!AT || typeof AT !== 'string') {
             return res.status(401).json({ message: "Unauthorized access" });
         }
 
 
-        const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+        const decodedToken = jwt.verify(AT, process.env.ACCESS_TOKEN_SECRET);
 
         const user = await Admin.findById(decodedToken?._id).select("-password");
 
